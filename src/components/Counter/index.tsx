@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
-import { AppStore } from "../../store/store";
+import { store } from "../../store/store";
 import styles from "./styles.module.scss";
 
 export default function Counter() {
   const [counter, setCounter] = useState(0);
 
   useEffect(() => {
-    const unsubscrube = AppStore.subscribe(() => {
-      console.log("state", AppStore.getState());
-      setCounter(AppStore.getState().count);
+    const unsubscrube = store.subscribe(() => {
+      console.log("state", store.getState());
+      setCounter(store.getState().counter.count);
     });
     return unsubscrube;
   }, []);
 
   function incrementHandle() {
-    AppStore.dispatch({ type: "increment" });
+    store.dispatch({ type: "increment" });
   }
 
   function decrementHandle() {
-    AppStore.dispatch({ type: "decrement" });
+    store.dispatch({ type: "decrement" });
   }
 
   return (

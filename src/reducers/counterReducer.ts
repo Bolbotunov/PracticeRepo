@@ -1,14 +1,8 @@
-type StateType = {
-  count: number;
-};
-
-type ActionType = {
-  type: string;
-};
+import { CounterAction, CounterState } from "../types/types";
 
 export function counterReducer(
-  state: StateType = { count: 0 },
-  action: ActionType
+  state: CounterState = { count: 0 },
+  action: CounterAction
 ) {
   switch (action.type) {
     case "increment":
