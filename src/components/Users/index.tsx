@@ -1,45 +1,53 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Dispatch } from "redux";
 import { store } from "../../store/store";
-import { userData } from "../../types/types";
-import styles from "./styles.module.scss";
+import { todoType, userData } from "../../types/types";
 
 export default function Users() {
-  const [users, setUsers] = useState<userData[]>([]);
+  const [users, setUsers] = useState(store.getState().users);
   const url = "https://jsonplaceholder.typicode.com/users/";
 
-  function getUsers() {
-    return async (dispatch: Dispatch) => {
-      dispatch({ type: "getUsersRequest" });
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-        dispatch({ type: "getUsersSuccess", payload: data });
-      } catch (error) {
-        dispatch({ type: "getUsersFail", payload: error });
-      }
-    };
-  }
   useEffect(() => {
     const unsubscribe = store.subscribe(() => setUsers(store.getState().users));
     return unsubscribe;
   }, []);
 
-  function getUsersHandler() {
-    store.dispatch<any>(getUsers());
+  const fetchUsers = (url: string) => {
+    return async (dispatch: Dispatch) => {
+      dispatch({ type: "userRequest" });
+      try {
+        const res = await fetch(url);
+        if (!res.ok) {
+          throw new Error(`Request failed with status ${res.status}`);
+        }
+        const data = await res.json();
+        dispatch({ type: "successRequest", payload: data });
+      } catch (error) {
+        if (error instanceof Error)
+          dispatch({ type: "rejectRequest", payload: error.message });
+      }
+    };
+  };
+
+  function fetchUsersHandler() {
+    store.dispatch<any>(fetchUsers(url));
   }
 
   return (
-    <div className={styles.todoContainer}>
+    <div>
       <h3>Users</h3>
-
-      <button onClick={getUsersHandler}>get users</button>
-
       <ul>
-        {users.map((item) => (
-          <li>{item.name}</li>
+        {store.getState().users.error && (
+          <p style={{ color: "red" }}>{store.getState().users.error}</p>
+        )}
+        {store.getState().users.isLoading && <p>LOADING.....</p>}
+        {users.users.map(({ id, name, email }) => (
+          <li key={id}>
+            {name} email: {email}
+          </li>
         ))}
       </ul>
+      <button onClick={fetchUsersHandler}>get users</button>
     </div>
   );
 }

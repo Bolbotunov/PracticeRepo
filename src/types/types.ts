@@ -28,13 +28,20 @@ export type CounterState = {
   count: number;
 };
 
+export type UsersState = {
+  users: userData[] | [];
+  isLoading: boolean;
+  error: string | null;
+};
+
 export type userData = {
   id: number;
   name: string;
   email: string;
 };
-type GetUsersRequest = { type: "getUsersRequest" };
-type GetUsersSuccess = { type: "getUsersSuccess"; payload: userData[] };
-type GetUsersFail = { type: "getUsersFail"; payload: string };
+
+type GetUsersRequest = { type: "userRequest" };
+type GetUsersSuccess = { type: "successRequest"; payload: userData[] };
+type GetUsersFail = { type: "rejectRequest"; payload: string };
 
 export type UsersAction = GetUsersRequest | GetUsersSuccess | GetUsersFail;
