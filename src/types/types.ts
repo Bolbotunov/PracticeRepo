@@ -40,8 +40,8 @@ export type userData = {
   email: string;
 };
 
-type GetUsersRequest = { type: "userRequest" };
-type GetUsersSuccess = { type: "successRequest"; payload: userData[] };
-type GetUsersFail = { type: "rejectRequest"; payload: string };
+type GetUsersRequest = { type: string };
+type GetUsersSuccess = { type: string; payload: userData[] };
+type GetUsersFail = { type: string; payload: string };
 
 export type UsersAction = GetUsersRequest | GetUsersSuccess | GetUsersFail;

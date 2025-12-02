@@ -1,5 +1,5 @@
-import Counter from "../Counter";
-import TodoList from "../TodoList";
+import { Provider } from "react-redux";
+import { store } from "../../store/store";
 import Users from "../Users";
 
 import styles from "./styles.module.scss";
@@ -7,11 +7,11 @@ import styles from "./styles.module.scss";
 function App() {
   return (
     <>
-      <div className={styles.wrapper}>
-        <Counter />
-        <TodoList />
-        <Users />
-      </div>
+      <Provider store={store}>
+        <div className={styles.wrapper}>
+          <Users />
+        </div>
+      </Provider>
     </>
   );
 }
