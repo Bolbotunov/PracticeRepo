@@ -1,14 +1,22 @@
-import { CounterAction, CounterState } from "../types/types";
+import {
+  COUNTER_ACTION_DELAY_PLUS,
+  COUNTER_ACTION_PLUS,
+} from "../constants/constants";
+
+type counterActionType = {
+  type: string;
+};
+const initialState = 0;
 
 export function counterReducer(
-  state: CounterState = { count: 0 },
-  action: CounterAction
+  state: number = initialState,
+  action: counterActionType
 ) {
   switch (action.type) {
-    case "increment":
-      return { count: state.count + 1 };
-    case "decrement":
-      return { count: state.count - 1 };
+    case COUNTER_ACTION_PLUS:
+      return state + 1;
+    case COUNTER_ACTION_DELAY_PLUS:
+      return state + 1;
     default:
       return state;
   }

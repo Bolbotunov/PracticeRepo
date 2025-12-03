@@ -1,53 +1,83 @@
-import { useEffect, useState } from "react";
-import { Dispatch } from "redux";
-import { store } from "../../store/store";
-import { todoType, userData } from "../../types/types";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  countActionDelayPlus,
+  countActionPlus,
+  fetchUsers,
+  flagAction,
+} from "../../actions/actions";
+import { USER_URL } from "../../constants/constants";
+import { AppDispatch, RootState } from "../../store/store";
 
 export default function Users() {
-  const [users, setUsers] = useState(store.getState().users);
-  const url = "https://jsonplaceholder.typicode.com/users/";
+  const dispatch = useDispatch<AppDispatch>();
+  const flag = useSelector((state: RootState) => state.flagReducer.statusFlag);
+  const lastUpdate = useSelector((state: RootState) => state.flagReducer.date);
+  const count = useSelector((state: RootState) => state.counterReducer);
+  const users = useSelector((state: RootState) => state.usersReducer.users);
+  const message = useSelector((state: RootState) => state.usersReducer.message);
+  const errorMessage = useSelector(
+    (state: RootState) => state.usersReducer.errorMessage
+  );
+  const loading = useSelector(
+    (state: RootState) => state.usersReducer.isLoading
+  );
 
-  useEffect(() => {
-    const unsubscribe = store.subscribe(() => setUsers(store.getState().users));
-    return unsubscribe;
-  }, []);
-
-  const fetchUsers = (url: string) => {
-    return async (dispatch: Dispatch) => {
-      dispatch({ type: "userRequest" });
-      try {
-        const res = await fetch(url);
-        if (!res.ok) {
-          throw new Error(`Request failed with status ${res.status}`);
-        }
-        const data = await res.json();
-        dispatch({ type: "successRequest", payload: data });
-      } catch (error) {
-        if (error instanceof Error)
-          dispatch({ type: "rejectRequest", payload: error.message });
-      }
-    };
-  };
-
-  function fetchUsersHandler() {
-    store.dispatch<any>(fetchUsers(url));
+  function toggleHandler() {
+    dispatch(flagAction(new Date()));
   }
+
+  function counterPlus() {
+    dispatch(countActionPlus());
+  }
+
+  function counterPlusDelay() {
+    dispatch(countActionDelayPlus());
+  }
+
+  const getUsers = () => {
+    dispatch(fetchUsers(USER_URL));
+  };
 
   return (
     <div>
       <h3>Users</h3>
-      <ul>
-        {store.getState().users.error && (
-          <p style={{ color: "red" }}>{store.getState().users.error}</p>
+      <button onClick={toggleHandler}>toggle FLAG</button>
+      <div>flas status: {flag ? "true" : "false"}</div>
+      <div>last toggle: {new Date(lastUpdate).toLocaleTimeString()}</div>
+      <button onClick={counterPlus}>PLUS</button>
+      <div>count: {count}</div>
+      <button onClick={counterPlusDelay}>PLUS WITH DELAY</button>
+      <div>count with delay: {count}</div>
+      <button onClick={getUsers}>GET USERS</button>
+      <div>
+        <div style={{ display: "flex", alignItems: "center", gap: "25px" }}>
+          <p>status message:</p>
+          <p style={{ color: "green", fontSize: "25px" }}> {message}</p>
+        </div>
+        {errorMessage && (
+          <div
+            style={{
+              color: "white",
+              backgroundColor: "red",
+              padding: "10px",
+              borderRadius: "5px",
+              marginTop: "10px",
+            }}
+          >
+            {errorMessage}
+          </div>
         )}
-        {store.getState().users.isLoading && <p>LOADING.....</p>}
-        {users.users.map(({ id, name, email }) => (
-          <li key={id}>
-            {name} email: {email}
-          </li>
-        ))}
-      </ul>
-      <button onClick={fetchUsersHandler}>get users</button>
+
+        {loading ? (
+          <p>Loading....</p>
+        ) : (
+          <ul>
+            {users.map(({ id, name }) => (
+              <li key={id}>{name}</li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
