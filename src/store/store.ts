@@ -7,8 +7,13 @@ import {
 import { thunk, ThunkDispatch } from "redux-thunk";
 import { counterReducer } from "../reducers/counterReducer";
 import { flagReducer } from "../reducers/flagReducer";
+import { usersReducer } from "../reducers/usersReducer";
 
-export const RootReducer = combineReducers({ flagReducer, counterReducer });
+export const RootReducer = combineReducers({
+  flagReducer,
+  counterReducer,
+  usersReducer,
+});
 
 export const store = createStore(
   RootReducer,

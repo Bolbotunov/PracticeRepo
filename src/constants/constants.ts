@@ -5,3 +5,7 @@ export const FLAG_ACTION = "FLAG_ACTION";
 export const COUNTER_ACTION_PLUS = "COUNTER_ACTION_PLUS";
 export const COUNTER_ACTION_MINUS = "COUNTER_ACTION_MINUS";
 export const COUNTER_ACTION_DELAY_PLUS = "COUNTER_ACTION_DELAY_PLUS";
+export const USER_URL = "https://jsonplaceholder.typicode.com/users";
+export const REQUEST_USER_ACTION = "REQUEST_USER_ACTION";
+export const SUCCESS_USER_ACTION = "SUCCESS_USER_ACTION";
+export const FAILED_USER_ACTION = "FAILED_USER_ACTION";
