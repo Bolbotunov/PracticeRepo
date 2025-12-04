@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  countActionDelayPlus,
+  countActionMinus,
   countActionPlus,
-  fetchUsers,
+  countSagaActionDelayMinus,
+  countSagaActionDelayPlus,
+  fetchUsersSagaAction,
   flagAction,
 } from "../../actions/actions";
-import { USER_URL } from "../../constants/constants";
 import { AppDispatch, RootState } from "../../store/store";
 
 export default function Users() {
@@ -29,13 +30,20 @@ export default function Users() {
   function counterPlus() {
     dispatch(countActionPlus());
   }
+  function counterMinus() {
+    dispatch(countActionMinus());
+  }
 
-  function counterPlusDelay() {
-    dispatch(countActionDelayPlus());
+  function counterSagaPlusDelay() {
+    dispatch(countSagaActionDelayPlus());
+  }
+
+  function counterSagaMinusDelay() {
+    dispatch(countSagaActionDelayMinus());
   }
 
   const getUsers = () => {
-    dispatch(fetchUsers(USER_URL));
+    dispatch(fetchUsersSagaAction());
   };
 
   return (
@@ -45,9 +53,10 @@ export default function Users() {
       <div>flas status: {flag ? "true" : "false"}</div>
       <div>last toggle: {new Date(lastUpdate).toLocaleTimeString()}</div>
       <button onClick={counterPlus}>PLUS</button>
+      <button onClick={counterMinus}>MINUS</button>
+      <button onClick={counterSagaPlusDelay}>SAGA PLUS WITH DELAY</button>
+      <button onClick={counterSagaMinusDelay}>SAGA PLUS WITH DELAY</button>
       <div>count: {count}</div>
-      <button onClick={counterPlusDelay}>PLUS WITH DELAY</button>
-      <div>count with delay: {count}</div>
       <button onClick={getUsers}>GET USERS</button>
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: "25px" }}>
