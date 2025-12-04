@@ -1,5 +1,5 @@
 import {
-  COUNTER_ACTION_DELAY_PLUS,
+  COUNTER_ACTION_MINUS,
   COUNTER_ACTION_PLUS,
 } from "../constants/constants";
 
@@ -15,8 +15,8 @@ export function counterReducer(
   switch (action.type) {
     case COUNTER_ACTION_PLUS:
       return state + 1;
-    case COUNTER_ACTION_DELAY_PLUS:
-      return state + 1;
+    case COUNTER_ACTION_MINUS:
+      return state - 1;
     default:
       return state;
   }
