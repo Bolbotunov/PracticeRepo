@@ -1,21 +1,17 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { Provider } from "react-redux";
+import { store } from "../../store/store";
+import Users from "../Users";
+
+import styles from "./styles.module.scss";
 
 function App() {
-  const dispatch = useDispatch();
-  const users = useSelector((state: RootState) => state.todos);
-
   return (
     <>
-      <div>TODO LIST</div>
-      <input /> <button>add task</button>
-      <ul>
-        {users.map(({ id, text }) => (
-          <li>
-            {id}: {text} / <button>delete task</button>
-          </li>
-        ))}
-      </ul>
+      <Provider store={store}>
+        <div className={styles.wrapper}>
+          <Users />
+        </div>
+      </Provider>
     </>
   );
 }
