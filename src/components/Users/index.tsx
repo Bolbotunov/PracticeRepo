@@ -6,7 +6,7 @@ import { addTodo, deleteTodo } from "../../store/todoSlice";
 export default function Users() {
   const [inputText, setInputText] = useState("");
   const dispatch = useDispatch();
-  const todos = useSelector((state: RootState) => state);
+  const todos = useSelector((state: RootState) => state.todoReducer);
 
   const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
