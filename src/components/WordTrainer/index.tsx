@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from "store/store";
 
 import styles from "./styles.module.scss";
 import { checkAnswer, fetchWord } from "@/store/translateSlice";
+import Button from "../Button";
 
 export default function WordTrainer() {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,18 +23,23 @@ export default function WordTrainer() {
   return (
     <>
       <div className={styles.wrapper}>
-        <button onClick={getNewWord}>Get a random word!</button>
+        <Button handler={getNewWord} size="small">
+          Get a random word!
+        </Button>
         {status === "pending" && <p>Loading...</p>}
         {word && <p>Word: {word}</p>}
         {word && (
-          <>
+          <div className={styles.searchContainer}>
             <input
               value={answer}
               onChange={(e) => setAnswer(e.target.value)}
               placeholder="write translate"
+              className={styles.searchInput}
             />
-            <button onClick={handleCheck}>Check!</button>
-          </>
+            <Button handler={handleCheck} size="small">
+              Check answer!
+            </Button>
+          </div>
         )}
         {isCorrect !== null && (
           <p>
