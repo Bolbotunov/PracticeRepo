@@ -18,6 +18,13 @@ const initialState: InitialStateType = {
 
 export const fetchWord = createAsyncThunk("translate/fetchWord", async () => {
   const randomItem = dictionary[Math.floor(Math.random() * dictionary.length)];
+  await new Promise((res) =>
+    setTimeout(
+      () => res({ randomWord: randomItem.en, translation: randomItem.ru }),
+      1000
+    )
+  );
+
   return { randomWord: randomItem.en, translation: randomItem.ru };
 });
 
