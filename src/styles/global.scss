@@ -1,0 +1,39 @@
+@use "./variables.scss" as *;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $font-family;
+  font-weight: $font-weight-light;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: $color-primary;
+  color: $color-accent;
+}
+
+.appContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+}
+
+main {
+  width: 100%;
+  flex: 1;
+  max-width: $layout-container;
+  padding: 0 $spacing-96;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border-top: 2px solid $color-secondary;
+}
