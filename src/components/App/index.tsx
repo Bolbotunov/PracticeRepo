@@ -1,13 +1,13 @@
-import { Provider } from "react-redux";
+import ContentLayout from "../ContentLayout";
+import Header from "../Header";
 
-import styles from "./styles.module.scss";
-
-function App() {
+export default function App() {
   return (
     <>
-      <div className={styles.wrapper}></div>
+      <div className="appContainer">
+        <Header />
+        <ContentLayout />
+      </div>
     </>
   );
 }
-
-export default App;

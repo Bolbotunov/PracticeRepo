@@ -1,0 +1,21 @@
+@use "@/styles/variables.scss" as *;
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: $spacing-40 $spacing-96;
+  width: 100%;
+  height: $spacing-96;
+  box-sizing: border-box;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: $layout-container;
+  width: 100%;
+  transition: color $transition ease;
+}
