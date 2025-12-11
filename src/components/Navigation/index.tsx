@@ -1,3 +1,4 @@
+import { Link, NavLink } from "react-router-dom";
 import styles from "./styles.module.scss";
 
 function Navigation() {
@@ -5,10 +6,24 @@ function Navigation() {
     <nav className={styles.nav}>
       <ul className={styles.navList}>
         <li>
-          <a href="#">Home</a>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? styles.activeLink : styles.navLink
+            }
+          >
+            Start Training
+          </NavLink>
         </li>
         <li>
-          <a href="#">Dairy</a>
+          <NavLink
+            to={"/diary"}
+            className={({ isActive }) =>
+              isActive ? styles.activeLink : styles.navLink
+            }
+          >
+            My Diary
+          </NavLink>
         </li>
       </ul>
     </nav>
