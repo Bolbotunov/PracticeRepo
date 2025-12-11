@@ -19,7 +19,7 @@
     list-style: none;
     margin-right: $spacing-112;
 
-    a {
+    .navLink {
       text-decoration: none;
       color: $color-accent;
       transition: $transition;
@@ -37,20 +37,20 @@
         transition: $transition;
       }
 
-      &.active {
-        color: $color-accent;
-
-        &::after {
-          transform: scaleX(1);
-        }
-      }
-
       &:hover {
         color: var(--color-hover);
 
         &::after {
           transform: scaleX(1);
         }
+      }
+    }
+
+    .activeLink {
+      color: $color-accent;
+
+      &::after {
+        transform: scaleX(1);
       }
     }
   }
