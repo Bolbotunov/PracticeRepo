@@ -1,20 +1,23 @@
-import { ChangeEventHandler, InputHTMLAttributes, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "store/store";
 
 import styles from "./styles.module.scss";
-import { checkAnswer, fetchWord } from "@/store/translateSlice";
+import { checkAnswer, fetchWord, saveToDiary } from "@/store/translateSlice";
 import Button from "@/components/Button";
 
 export default function WordTrainer() {
   const dispatch = useDispatch<AppDispatch>();
-  const { word, translation, status, isCorrect } = useSelector(
+  const { word, translation, status, isCorrect, attempts } = useSelector(
     (state: RootState) => state.translate
   );
   const [answer, setAnswer] = useState("");
 
   const handleCheck = () => {
     dispatch(checkAnswer(answer));
+    if (translation.includes(answer)) {
+      dispatch(saveToDiary({ en: word, ru: answer }));
+    }
   };
 
   const getNewWord = () => {
@@ -27,6 +30,7 @@ export default function WordTrainer() {
   return (
     <>
       <div className={styles.wrapper}>
+        <p className={styles.attempts}>count of words: {attempts} / 3</p>
         <Button handler={getNewWord} size="small">
           Get a random word!
         </Button>
