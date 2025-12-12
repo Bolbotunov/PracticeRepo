@@ -1,12 +1,21 @@
+import { ATTEMPTS_COUNT } from "@/constants/constants";
 import { dictionary } from "@/constants/dictionary";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 type StatusType = "idle" | "pending" | "success" | "failed";
+
+type diaryItem = {
+  en: string;
+  ru: string;
+};
+
 type InitialStateType = {
   word: string;
   translation: string[];
   status: StatusType;
   isCorrect: null | boolean;
+  dairyList: diaryItem[];
+  attempts: number;
 };
 
 const initialState: InitialStateType = {
@@ -14,6 +23,8 @@ const initialState: InitialStateType = {
   translation: [],
   status: "idle",
   isCorrect: null,
+  dairyList: [],
+  attempts: 0,
 };
 
 export const fetchWord = createAsyncThunk("translate/fetchWord", async () => {
@@ -35,6 +46,9 @@ const translateSlice = createSlice({
     checkAnswer: (state, action) => {
       state.isCorrect = state.translation.includes(action.payload);
     },
+    saveToDiary: (state, action) => {
+      state.dairyList.push(action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -45,6 +59,12 @@ const translateSlice = createSlice({
         state.status = "success";
         state.word = action.payload.randomWord;
         state.translation = action.payload.translation;
+        if (state.attempts === ATTEMPTS_COUNT) {
+          state.attempts = 0;
+        } else {
+          state.attempts++;
+        }
+
         state.isCorrect = null;
       })
       .addCase(fetchWord.rejected, (state) => {
@@ -53,5 +73,5 @@ const translateSlice = createSlice({
   },
 });
 
-export const { checkAnswer } = translateSlice.actions;
+export const { checkAnswer, saveToDiary } = translateSlice.actions;
 export default translateSlice.reducer;
