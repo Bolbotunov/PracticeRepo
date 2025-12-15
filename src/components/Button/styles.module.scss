@@ -18,3 +18,9 @@
     color: $color-primary;
   }
 }
+
+.button:disabled {
+  cursor: default;
+  background-color: $color-disabled;
+  pointer-events: none;
+}
