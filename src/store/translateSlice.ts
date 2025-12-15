@@ -1,6 +1,5 @@
 import { ATTEMPTS_COUNT } from "@/constants/constants";
-import { dictionary } from "@/constants/dictionary";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 type StatusType = "idle" | "pending" | "success" | "failed";
 
@@ -27,51 +26,49 @@ const initialState: InitialStateType = {
   attempts: 0,
 };
 
-export const fetchWord = createAsyncThunk("translate/fetchWord", async () => {
-  const randomItem = dictionary[Math.floor(Math.random() * dictionary.length)];
-  await new Promise((res) =>
-    setTimeout(
-      () => res({ randomWord: randomItem.en, translation: randomItem.ru }),
-      1000
-    )
-  );
-
-  return { randomWord: randomItem.en, translation: randomItem.ru };
-});
-
 const translateSlice = createSlice({
   name: "translate",
   initialState,
   reducers: {
+    fetchWordRequest: (state) => {
+      state.status = "pending";
+    },
+    fetchWordSuccess: (state, action) => {
+      state.status = "success";
+      state.word = action.payload.word;
+      state.translation = action.payload.translation;
+      if (state.attempts === ATTEMPTS_COUNT) {
+        state.attempts = ATTEMPTS_COUNT;
+      } else {
+        state.attempts++;
+      }
+      state.isCorrect = null;
+    },
+    fetchWordFail: (state) => {
+      state.status = "failed";
+    },
     checkAnswer: (state, action) => {
       state.isCorrect = state.translation.includes(action.payload);
     },
     saveToDiary: (state, action) => {
       state.dairyList.push(action.payload);
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchWord.pending, (state) => {
-        state.status = "pending";
-      })
-      .addCase(fetchWord.fulfilled, (state, action) => {
-        state.status = "success";
-        state.word = action.payload.randomWord;
-        state.translation = action.payload.translation;
-        if (state.attempts === ATTEMPTS_COUNT) {
-          state.attempts = 0;
-        } else {
-          state.attempts++;
-        }
-
-        state.isCorrect = null;
-      })
-      .addCase(fetchWord.rejected, (state) => {
-        state.status = "failed";
-      });
+    resetProgress: (state) => {
+      state.attempts = 0;
+      state.isCorrect = null;
+      state.word = "";
+      state.translation = [];
+      state.status = "idle";
+    },
   },
 });
 
-export const { checkAnswer, saveToDiary } = translateSlice.actions;
+export const {
+  fetchWordRequest,
+  fetchWordSuccess,
+  fetchWordFail,
+  checkAnswer,
+  saveToDiary,
+  resetProgress,
+} = translateSlice.actions;
 export default translateSlice.reducer;

@@ -1,8 +1,9 @@
-import createSagaMiddleware from "@redux-saga/core/dist/declarations/types";
+import createSagaMiddleware from "redux-saga";
 import { configureStore } from "@reduxjs/toolkit";
 import persistStore from "redux-persist/es/persistStore";
-import { sagaWatcher } from "./AppSaga";
+
 import { persist } from "./persistConfig";
+import { rootSaga } from "./AppSaga";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -16,7 +17,7 @@ export const store = configureStore({
     }).concat(sagaMiddleware),
 });
 
-sagaMiddleware.run(sagaWatcher);
+sagaMiddleware.run(rootSaga);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
