@@ -1,0 +1,19 @@
+@use "@/styles/variables.scss" as *;
+
+.diaryList {
+  font-size: $spacing-40;
+  ul {
+    list-style: none;
+  }
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  h2 {
+    margin: $spacing-40;
+    font-size: $font-size-48;
+  }
+}

@@ -1,0 +1,26 @@
+@use "@/styles/variables.scss" as *;
+.small {
+  width: $width-btn-small;
+}
+
+.big {
+  width: $width-btn-big;
+}
+
+.button {
+  background-color: $color-accent;
+  padding: $spacing-12;
+  border-radius: $spacing-8;
+  cursor: pointer;
+  transition: $transition;
+  &:hover {
+    background-color: $color-hover;
+    color: $color-primary;
+  }
+}
+
+.button:disabled {
+  cursor: default;
+  background-color: $color-disabled;
+  pointer-events: none;
+}
