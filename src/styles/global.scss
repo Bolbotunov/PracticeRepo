@@ -25,6 +25,21 @@ body {
   box-sizing: border-box;
   width: 100%;
   overflow: hidden;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.light {
+  --bg-color: #fff;
+  --text-color: #000;
+}
+
+.dark {
+  --bg-color: #000;
+  --text-color: #fff;
+}
+
+.appContainer {
 }
 
 main {

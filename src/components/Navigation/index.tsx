@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./styles.module.scss";
 
 function Navigation() {
@@ -23,6 +23,16 @@ function Navigation() {
             }
           >
             My Diary
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to={"/practice"}
+            className={({ isActive }) =>
+              isActive ? styles.activeLink : styles.navLink
+            }
+          >
+            Practice
           </NavLink>
         </li>
       </ul>
